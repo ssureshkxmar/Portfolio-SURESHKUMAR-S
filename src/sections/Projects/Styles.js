@@ -94,19 +94,7 @@ export const Text = styled.div`
   z-index: 11;
 
   @media (max-width: 48em) {
-    width: 85%;
-    position: absolute;
-    bottom: 3rem;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 1rem;
-    font-size: ${(props) => props.theme.fontmd};
-    text-align: center;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px;
-    z-index: 20;
+    display: none;
   }
 `;
 
