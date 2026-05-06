@@ -92,7 +92,7 @@ const Right = styled.div`
 const NameText = styled.h2`
   font-family: 'Sirin Stencil';
   font-size: ${(props) => props.theme.fontxl};
-  color: ${(props) => props.theme.text};
+  color: #202020;
   margin-top: 1.5rem;
   text-align: center;
   letter-spacing: 2px;
