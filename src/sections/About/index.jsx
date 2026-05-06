@@ -59,6 +59,7 @@ const Right = styled.div`
   width: 50%;
   position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding-top: 6rem;
@@ -85,6 +86,21 @@ const Right = styled.div`
     img {
       width: 60%;
     }
+  }
+`;
+
+const NameText = styled.h2`
+  font-family: 'Sirin Stencil';
+  font-size: ${(props) => props.theme.fontxl};
+  color: ${(props) => props.theme.text};
+  margin-top: 1.5rem;
+  text-align: center;
+  letter-spacing: 2px;
+  font-weight: 600;
+
+  @media (max-width: 48em) {
+    font-size: ${(props) => props.theme.fontlg};
+    margin-top: 1rem;
   }
 `;
 
@@ -141,6 +157,9 @@ const About = () => {
 
       <Right>
         <img width="400" height="600" src={img1} alt="About Me" />
+        <NameText data-scroll data-scroll-speed="2">
+          SURESHKUMAR S
+        </NameText>
       </Right>
     </Section>
   );
