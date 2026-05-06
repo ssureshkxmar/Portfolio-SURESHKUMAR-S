@@ -1,17 +1,19 @@
-import { motion } from "framer-motion";
-import React from "react";
-import styled from "styled-components";
-
-import MainVideo from "../assets/Walking Girl.mp4";
+import { motion } from 'framer-motion';
+import React from 'react';
+import styled from 'styled-components';
+import MainVideo from '../assets/bg-video.mp4';
 
 const VideoContainer = styled.section`
   width: 100%;
   height: 100vh;
   position: relative;
+  overflow: hidden;
+
   video {
     width: 100%;
     height: 100vh;
     object-fit: cover;
+    filter: brightness(0.55) contrast(1.15) saturate(0.85);
 
     @media (max-width: 48em) {
       object-position: center 10%;
@@ -29,7 +31,18 @@ const DarkOverlay = styled.div`
   right: 0;
   bottom: 0;
   z-index: 1;
-  background-color: ${(props) => `rgba(${props.theme.bodyRgba},0.6)`};
+  background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.55) 0%,
+      rgba(0, 0, 0, 0.15) 40%,
+      rgba(0, 0, 0, 0.15) 60%,
+      rgba(0, 0, 0, 0.7) 100%
+    ),
+    radial-gradient(
+      ellipse at center,
+      rgba(0, 0, 0, 0) 30%,
+      rgba(0, 0, 0, 0.5) 100%
+    );
 `;
 
 const Title = styled(motion.div)`
@@ -39,7 +52,6 @@ const Title = styled(motion.div)`
   right: 0;
   bottom: 0;
   z-index: 5;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -53,27 +65,25 @@ const Title = styled(motion.div)`
 
   h1 {
     font-family: "Kaushan Script";
-    font-size: ${(props) => props.theme.fontBig};
-
+    font-size: calc(1rem + 5vw);
+    white-space: nowrap;
     text-shadow: 1px 1px 1px ${(props) => props.theme.body};
 
     @media (max-width: 30em) {
-      /* font-size: ${(props) => props.theme.fontxxxl}; */
-      font-size: calc(5rem + 8vw);
+      font-size: calc(0.5rem + 7vw);
     }
   }
+
   h2 {
     font-size: ${(props) => props.theme.fontlg};
     font-family: "Sirin Stencil";
     font-weight: 500;
     text-shadow: 1px 1px 1px ${(props) => props.theme.body};
     margin: 0 auto;
-
     text-transform: capitalize;
 
     @media (max-width: 30em) {
       font-size: ${(props) => props.theme.fontmd};
-      /* font-size: calc(5rem + 8vw); */
       margin-top: -1.5rem;
     }
   }
@@ -84,7 +94,7 @@ const container = {
   show: {
     opacity: 1,
     transition: {
-      delayChildren: 5, // 2
+      delayChildren: 5,
       staggerChildren: 0.3,
     },
   },
@@ -99,50 +109,28 @@ const CoverVideo = () => {
   return (
     <VideoContainer data-scroll>
       <DarkOverlay />
-
       <Title variants={container} initial="hidden" animate="show">
         <div>
-          <motion.h1
-            variants={item}
-            data-scroll
-            data-scroll-delay="0.13"
-            data-scroll-speed="4"
-          >
-            W
-          </motion.h1>
-          <motion.h1
-            variants={item}
-            data-scroll
-            data-scroll-delay="0.09"
-            data-scroll-speed="4"
-          >
-            i
-          </motion.h1>
-          <motion.h1
-            variants={item}
-            data-scroll
-            data-scroll-delay="0.06"
-            data-scroll-speed="4"
-          >
-            b
-          </motion.h1>
-          <motion.h1
-            variants={item}
-            data-scroll
-            data-scroll-delay="0.04"
-            data-scroll-speed="4"
-          >
-            e
-          </motion.h1>
+          {['E', 'S', 'I', 'N', 'N'].map((char, index) => (
+            <motion.h1
+              key={index}
+              variants={item}
+              data-scroll
+              data-scroll-delay={0.13 - index * 0.02}
+              data-scroll-speed="4"
+            >
+              {char}
+            </motion.h1>
+          ))}
         </div>
         <motion.h2
-          style={{ alignSelf: "flex-end" }}
+          style={{ alignSelf: 'flex-end' }}
           variants={item}
           data-scroll
           data-scroll-delay="0.04"
           data-scroll-speed="2"
         >
-          inspire. create. belive
+          build beyond limits
         </motion.h2>
       </Title>
 
