@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import MainVideo from '../assets/bg-video.mp4';
+import MobileVideo from '../assets/mobile.mp4';
 
 const VideoContainer = styled.section`
   width: 100%;
@@ -106,6 +107,18 @@ const item = {
 };
 
 const CoverVideo = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <VideoContainer data-scroll>
       <DarkOverlay />
@@ -134,7 +147,14 @@ const CoverVideo = () => {
         </motion.h2>
       </Title>
 
-      <video src={MainVideo} type="video/mp4" autoPlay muted loop />
+      <video 
+        src={isMobile ? MobileVideo : MainVideo} 
+        type="video/mp4" 
+        autoPlay 
+        muted 
+        loop 
+        playsInline 
+      />
     </VideoContainer>
   );
 };

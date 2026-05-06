@@ -60,7 +60,7 @@ export const Container = styled.div`
     width: 40vw;
   }
   @media (max-width: 30em) {
-    width: 60vw;
+    width: 80vw;
   }
 `;
 
