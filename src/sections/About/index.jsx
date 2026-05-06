@@ -12,6 +12,9 @@ const Section = styled.section`
 
   @media (max-width: 48em) {
     width: 90vw;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 0;
   }
 
   @media (max-width: 30em) {
@@ -29,24 +32,26 @@ const Left = styled.div`
 
   @media (max-width: 64em) {
     width: 80%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) !important;
-    margin: 0 auto;
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none !important;
+    margin: 2rem auto;
     padding: 2rem;
-    font-weight: 600;
-    backdrop-filter: blur(2px);
-    background-color: ${(props) => `rgba(${props.theme.textRgba},0.4)`};
+    font-weight: 500;
+    background-color: ${(props) => `rgba(${props.theme.bodyRgba},0.7)`};
+    backdrop-filter: blur(4px);
     border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   }
   @media (max-width: 48em) {
     font-size: ${(props) => props.theme.fontmd};
+    width: 90%;
+    order: 2;
   }
   @media (max-width: 30em) {
     font-size: ${(props) => props.theme.fontsm};
-    padding: 2rem;
-    width: 70%;
+    padding: 1.5rem;
   }
 `;
 
@@ -64,23 +69,21 @@ const Right = styled.div`
     border-radius: 12px;
     display: block;
     margin: 0 auto;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
   }
 
   @media (max-width: 64em) {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding-top: 2rem;
     img {
-      width: 60%;
-      height: auto;
-      object-fit: cover;
+      width: 50%;
     }
   }
 
   @media (max-width: 48em) {
+    order: 1;
     img {
-      width: 80%;
+      width: 60%;
     }
   }
 `;

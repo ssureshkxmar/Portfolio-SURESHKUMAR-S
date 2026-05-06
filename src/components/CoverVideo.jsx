@@ -9,6 +9,7 @@ const VideoContainer = styled.section`
   height: 100vh;
   position: relative;
   overflow: hidden;
+  background-color: #000;
 
   video {
     width: 100%;
@@ -34,15 +35,10 @@ const DarkOverlay = styled.div`
   z-index: 1;
   background: linear-gradient(
       to bottom,
-      rgba(0, 0, 0, 0.55) 0%,
-      rgba(0, 0, 0, 0.15) 40%,
-      rgba(0, 0, 0, 0.15) 60%,
-      rgba(0, 0, 0, 0.7) 100%
-    ),
-    radial-gradient(
-      ellipse at center,
-      rgba(0, 0, 0, 0) 30%,
-      rgba(0, 0, 0, 0.5) 100%
+      rgba(0, 0, 0, 0.65) 0%,
+      rgba(0, 0, 0, 0.25) 40%,
+      rgba(0, 0, 0, 0.25) 60%,
+      rgba(0, 0, 0, 0.8) 100%
     );
 `;
 
@@ -58,20 +54,23 @@ const Title = styled(motion.div)`
   justify-content: center;
   align-items: center;
   color: ${(props) => props.theme.text};
+  padding: 0 1rem;
 
   div {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
   }
 
   h1 {
     font-family: "Kaushan Script";
-    font-size: calc(1rem + 5vw);
+    font-size: calc(1.5rem + 5vw);
     white-space: nowrap;
-    text-shadow: 1px 1px 1px ${(props) => props.theme.body};
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 
     @media (max-width: 30em) {
-      font-size: calc(0.5rem + 7vw);
+      font-size: calc(1.2rem + 7vw);
     }
   }
 
@@ -79,13 +78,16 @@ const Title = styled(motion.div)`
     font-size: ${(props) => props.theme.fontlg};
     font-family: "Sirin Stencil";
     font-weight: 500;
-    text-shadow: 1px 1px 1px ${(props) => props.theme.body};
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     margin: 0 auto;
     text-transform: capitalize;
+    letter-spacing: 2px;
 
     @media (max-width: 30em) {
       font-size: ${(props) => props.theme.fontmd};
-      margin-top: -1.5rem;
+      margin-top: 0.5rem;
+      align-self: center !important;
+      text-align: center;
     }
   }
 `;
@@ -95,15 +97,15 @@ const container = {
   show: {
     opacity: 1,
     transition: {
-      delayChildren: 5,
+      delayChildren: 2,
       staggerChildren: 0.3,
     },
   },
 };
 
 const item = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1 },
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 },
 };
 
 const CoverVideo = () => {
@@ -128,9 +130,6 @@ const CoverVideo = () => {
             <motion.h1
               key={index}
               variants={item}
-              data-scroll
-              data-scroll-delay={0.13 - index * 0.02}
-              data-scroll-speed="4"
             >
               {char}
             </motion.h1>
@@ -139,9 +138,6 @@ const CoverVideo = () => {
         <motion.h2
           style={{ alignSelf: 'flex-end' }}
           variants={item}
-          data-scroll
-          data-scroll-delay="0.04"
-          data-scroll-speed="2"
         >
           build beyond limits
         </motion.h2>
@@ -154,6 +150,7 @@ const CoverVideo = () => {
         muted 
         loop 
         playsInline 
+        preload="auto"
       />
     </VideoContainer>
   );
