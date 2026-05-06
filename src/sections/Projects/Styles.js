@@ -52,6 +52,7 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 20;
 
   @media (max-width: 64em) {
     width: 30vw;

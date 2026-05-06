@@ -1,6 +1,7 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import React, { useLayoutEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { projects } from './data';
 import ProjectCard from './ProjectCard';
 import GithubViewer from './GithubViewer';
@@ -92,9 +93,11 @@ const Projects = () => {
         Futuristic. Impactful. Scalable.
       </Text>
 
-      {selectedRepo && (
-        <GithubViewer repo={selectedRepo} onClose={() => setSelectedRepo(null)} />
-      )}
+      <AnimatePresence>
+        {selectedRepo && (
+          <GithubViewer repo={selectedRepo} onClose={() => setSelectedRepo(null)} />
+        )}
+      </AnimatePresence>
     </Section>
   );
 };

@@ -142,37 +142,49 @@ const GithubViewer = ({ repo, onClose }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const fetchFiles = async (path = '') => {
     setLoading(true);
+    setError(null);
     try {
       const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`);
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.message || 'Failed to fetch repository contents');
+      }
       const data = await res.json();
       if (Array.isArray(data)) {
         setFiles(data);
         setCurrentPath(path);
+      } else {
+        throw new Error('Invalid repository data received');
       }
     } catch (err) {
-      console.error(err);
+      console.error('Github Fetch Error:', err);
+      setError(err.message);
     }
     setLoading(false);
   };
 
   const fetchFileContent = async (url) => {
     setLoading(true);
+    setError(null);
     try {
       const res = await fetch(url);
+      if (!res.ok) throw new Error('Failed to fetch file content');
       const text = await res.text();
       setCode(text);
     } catch (err) {
-      console.error(err);
+      console.error('File Fetch Error:', err);
+      setError(err.message);
     }
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchFiles();
-  }, []);
+    if (repo) fetchFiles();
+  }, [repo]);
 
   const handleItemClick = (item) => {
     if (item.type === 'dir') {
@@ -184,62 +196,69 @@ const GithubViewer = ({ repo, onClose }) => {
   };
 
   const handleBack = () => {
+    if (!currentPath) return;
     const parts = currentPath.split('/');
     parts.pop();
     fetchFiles(parts.join('/'));
   };
 
   return (
-    <AnimatePresence>
-      <ViewerContainer
-        initial={{ opacity: 0, scale: 0.9, y: 50 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.9, y: 50 }}
-      >
-        <Header>
-          <h2>{repo}</h2>
-          <CloseBtn onClick={onClose}>&times;</CloseBtn>
-        </Header>
+    <ViewerContainer
+      initial={{ opacity: 0, scale: 0.9, y: 50, x: '-50%', y: '-50%' }}
+      animate={{ opacity: 1, scale: 1, y: '-50%', x: '-50%' }}
+      exit={{ opacity: 0, scale: 0.9, y: 50, x: '-50%' }}
+      transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+    >
+      <Header>
+        <h2>{repo}</h2>
+        <CloseBtn onClick={onClose}>&times;</CloseBtn>
+      </Header>
 
-        <Breadcrumb onClick={handleBack}>
-          <span>root</span> {currentPath && ` / ${currentPath}`}
-        </Breadcrumb>
+      <Breadcrumb onClick={handleBack}>
+        <span style={{color: '#06b6d4'}}>root</span> {currentPath && ` / ${currentPath}`}
+      </Breadcrumb>
 
-        <Content>
-          <Sidebar>
-            {loading && !files.length ? (
-               <div style={{textAlign: 'center', padding: '2rem'}}>Loading...</div>
-            ) : (
-              files.map(file => (
-                <FileItem
-                  key={file.sha}
-                  active={selectedFile?.sha === file.sha}
-                  onClick={() => handleItemClick(file)}
-                >
-                  {file.type === 'dir' ? (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-                  ) : (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
-                  )}
-                  {file.name}
-                </FileItem>
-              ))
-            )}
-          </Sidebar>
+      <Content>
+        <Sidebar>
+          {loading && !files.length ? (
+             <div style={{textAlign: 'center', padding: '2rem'}}>Loading repository...</div>
+          ) : error && !files.length ? (
+             <div style={{color: '#ef4444', padding: '1rem', fontSize: '0.8rem'}}>
+               Error: {error}
+               <button onClick={() => fetchFiles(currentPath)} style={{display: 'block', marginTop: '1rem', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', padding: '0.5rem', borderRadius: '4px', cursor: 'pointer'}}>Retry</button>
+             </div>
+          ) : (
+            files.map(file => (
+              <FileItem
+                key={file.sha}
+                active={selectedFile?.sha === file.sha}
+                onClick={() => handleItemClick(file)}
+              >
+                {file.type === 'dir' ? (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                ) : (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" strokeWidth="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                )}
+                {file.name}
+              </FileItem>
+            ))
+          )}
+        </Sidebar>
 
-          <CodeArea>
-            {loading && files.length > 0 && <LoadingOverlay>Loading...</LoadingOverlay>}
-            {selectedFile ? (
-              <pre><code>{code}</code></pre>
-            ) : (
-              <div style={{height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', opacity: 0.4}}>
-                Select a file to view code
-              </div>
-            )}
-          </CodeArea>
-        </Content>
-      </ViewerContainer>
-    </AnimatePresence>
+        <CodeArea>
+          {loading && files.length > 0 && <LoadingOverlay>Loading file...</LoadingOverlay>}
+          {error && files.length > 0 && <div style={{color: '#ef4444', padding: '1rem'}}>{error}</div>}
+          {selectedFile ? (
+            <pre style={{margin: 0}}><code style={{whiteSpace: 'pre-wrap', wordBreak: 'break-all'}}>{code}</code></pre>
+          ) : (
+            <div style={{height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', opacity: 0.4}}>
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" style={{marginBottom: '1rem'}}><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+              Select a file to view code
+            </div>
+          )}
+        </CodeArea>
+      </Content>
+    </ViewerContainer>
   );
 };
 
