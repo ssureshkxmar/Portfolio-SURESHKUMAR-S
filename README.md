@@ -21,7 +21,7 @@ This project is optimized for performance and premium aesthetics, designed to so
 ```bash
 bun install
 bun run dev      # start dev server at http://localhost:3000
-bun run build    # production build
+bun run build    # production build to ./dist
 ```
 
 © 2026 ES Innovations. All Rights Reserved.
