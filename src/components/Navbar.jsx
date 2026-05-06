@@ -15,7 +15,7 @@ const NavContainer = styled(motion.div)`
   align-items: center;
 
   @media (max-width: 40em) {
-    top: ${(props) => (props.$click ? '0' : `calc(-50vh - 4rem)`)};
+    top: ${(props) => (props.$click ? '0' : `calc(-50vh)`)};
   }
 `;
 
@@ -108,7 +108,7 @@ const Navbar = () => {
         dragSnapToOrigin
       >
         <MenuBtn onClick={() => setClick(!click)}>
-          <span>MENU</span>
+          MENU
         </MenuBtn>
         {navItems.map((item) => (
           <Item
