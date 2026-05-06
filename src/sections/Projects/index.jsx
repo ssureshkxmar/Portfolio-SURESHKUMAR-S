@@ -1,8 +1,9 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { projects } from './data';
 import ProjectCard from './ProjectCard';
+import GithubViewer from './GithubViewer';
 import {
   Section,
   Overlay,
@@ -15,6 +16,7 @@ const Projects = () => {
   gsap.registerPlugin(ScrollTrigger);
   const ref = useRef(null);
   const ScrollingRef = useRef(null);
+  const [selectedRepo, setSelectedRepo] = useState(null);
 
   useLayoutEffect(() => {
     let element = ref.current;
@@ -71,7 +73,11 @@ const Projects = () => {
       </Title>
       <Container ref={ScrollingRef}>
         {projects.map((project) => (
-          <ProjectCard key={project.title} project={project} />
+          <ProjectCard
+            key={project.title}
+            project={project}
+            onClick={() => setSelectedRepo(project.repo)}
+          />
         ))}
       </Container>
       <Text data-scroll data-scroll-speed="-4">
@@ -85,6 +91,10 @@ const Projects = () => {
         <br />
         Futuristic. Impactful. Scalable.
       </Text>
+
+      {selectedRepo && (
+        <GithubViewer repo={selectedRepo} onClose={() => setSelectedRepo(null)} />
+      )}
     </Section>
   );
 };

@@ -9,9 +9,9 @@ import {
   CardDesc,
 } from './Styles';
 
-const ProjectCard = ({ project }) => {
+const ProjectCard = ({ project, onClick }) => {
   return (
-    <CardWrapper>
+    <CardWrapper onClick={onClick} style={{ cursor: 'pointer' }}>
       <Card accentcolor={project.color}>
         <CardImage src={project.img} alt={project.title} />
         <div>
