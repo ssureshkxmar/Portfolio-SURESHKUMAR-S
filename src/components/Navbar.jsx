@@ -8,7 +8,7 @@ const NavContainer = styled(motion.div)`
   position: absolute;
   top: ${(props) => (props.$click ? '0' : `-${props.theme.navHeight}`)};
   transition: all 0.3s ease;
-  z-index: 6;
+  z-index: 100;
   width: 100vw;
   display: flex;
   justify-content: center;
@@ -99,7 +99,7 @@ const Navbar = () => {
       $click={click}
       initial={{ y: '-100%' }}
       animate={{ y: 0 }}
-      transition={{ duration: 2, delay: 5 }}
+      transition={{ duration: 1, delay: 2 }}
     >
       <MenuItems
         drag="y"

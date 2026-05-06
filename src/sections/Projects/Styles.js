@@ -94,7 +94,14 @@ export const Text = styled.div`
   z-index: 11;
 
   @media (max-width: 48em) {
-    display: none;
+    width: 80%;
+    position: relative;
+    top: auto;
+    right: auto;
+    margin: 2rem auto;
+    text-align: center;
+    background: rgba(0,0,0,0.1);
+    border-radius: 12px;
   }
 `;
 
