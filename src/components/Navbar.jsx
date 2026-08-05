@@ -13,7 +13,7 @@ const NavContainer = styled(motion.div)`
   justify-content: center;
   align-items: center;
 
-  @media (max-width: 40em) {
+  @media (max-width: 768px) {
     /* Mobile Dock Style */
     position: fixed;
     top: auto;
@@ -51,7 +51,7 @@ const MenuBtn = styled.li`
   align-items: center;
   transition: all 0.3s ease;
 
-  @media (max-width: 40em) {
+  @media (max-width: 768px) {
     display: none; /* Hide MENU button on mobile, dock is always visible */
   }
 `;
@@ -68,7 +68,7 @@ const MenuItems = styled(motion.ul)`
   width: 100%;
   padding: 0 10rem;
 
-  @media (max-width: 40em) {
+  @media (max-width: 768px) {
     background-color: transparent;
     height: auto;
     padding: 0;
@@ -86,7 +86,7 @@ const Item = styled(motion.li)`
     display: none;
   }
 
-  @media (max-width: 40em) {
+  @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
     align-items: center;
