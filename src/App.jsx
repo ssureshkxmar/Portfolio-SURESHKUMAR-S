@@ -33,8 +33,8 @@ function App() {
         <LocomotiveScrollProvider
           options={{
             smooth: true,
-            smartphone: { smooth: false },
-            tablet: { smooth: false },
+            smartphone: { smooth: true },
+            tablet: { smooth: true },
           }}
           watch={[]}
           containerRef={containerRef}
