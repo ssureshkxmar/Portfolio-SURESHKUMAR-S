@@ -30,6 +30,11 @@ const Section = styled.section`
   position: relative;
   padding: 5rem 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
+
+  @media (max-width: 48em) {
+    padding: 3rem 1.5rem;
+    padding-bottom: 6rem; /* Extra space at the bottom for the mobile dock */
+  }
 `;
 
 const ContentContainer = styled.div`
@@ -43,6 +48,11 @@ const ContentContainer = styled.div`
     width: 90%;
     text-align: center;
     gap: 3rem;
+  }
+
+  @media (max-width: 48em) {
+    width: 100%;
+    gap: 2.5rem;
   }
 `;
 
@@ -63,6 +73,12 @@ const BrandSection = styled.div`
     object-fit: cover;
     box-shadow: 0 0 30px 5px rgba(255, 255, 255, 0.2);
     border: 2px solid rgba(255, 255, 255, 0.1);
+
+    @media (max-width: 48em) {
+      width: 5.5rem;
+      height: 5.5rem;
+      margin-bottom: 1rem;
+    }
   }
 
   h2 {
@@ -71,6 +87,10 @@ const BrandSection = styled.div`
     margin-bottom: 0.8rem;
     color: #ffffff;
     text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+
+    @media (max-width: 48em) {
+      font-size: ${(props) => props.theme.fontxl};
+    }
   }
 
   p {
@@ -78,6 +98,11 @@ const BrandSection = styled.div`
     color: rgba(255, 255, 255, 0.6);
     max-width: 320px;
     line-height: 1.6;
+
+    @media (max-width: 48em) {
+      font-size: ${(props) => props.theme.fontxs};
+      max-width: 280px;
+    }
   }
 `;
 
@@ -116,6 +141,11 @@ const NavGroup = styled.div`
         transform: translateX(-50%);
       }
     }
+
+    @media (max-width: 48em) {
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
   }
 
   ul {
@@ -136,6 +166,11 @@ const NavGroup = styled.div`
 
     @media (max-width: 64em) {
       justify-content: center;
+    }
+
+    @media (max-width: 48em) {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
     }
 
     svg {
@@ -184,6 +219,8 @@ const Bottom = styled.div`
     flex-direction: column;
     gap: 1rem;
     text-align: center;
+    margin-top: 3rem;
+    width: 90%;
   }
 `;
 
