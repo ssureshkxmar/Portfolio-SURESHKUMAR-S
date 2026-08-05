@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import star from '../assets/logo.png';
 
 const Container = styled(motion.div)`
   position: absolute;
@@ -19,61 +18,76 @@ const Container = styled(motion.div)`
   justify-content: center;
   align-items: center;
   background-color: black;
-
-  @media (max-width: 48em) {
-    img {
-      width: 20vw;
-    }
-  }
-
-  img {
-    width: 10vw;
-    height: auto;
-  }
+  padding: 2rem;
+  text-align: center;
 `;
 
 const textVariants = {
   hidden: {
     opacity: 0,
+    y: 20
   },
   visible: {
     opacity: 1,
+    y: 0,
     transition: {
-      duration: 1,
-      repeat: Infinity,
-      repeatType: 'reverse',
+      duration: 1.5,
       ease: 'easeInOut',
     },
   },
 };
 
-const Text = styled(motion.span)`
+const Text = styled(motion.p)`
   font-size: ${(props) => props.theme.fontxl};
   color: ${(props) => props.theme.text};
   padding-top: 0.5rem;
+  line-height: 1.6;
+  white-space: pre-line;
 
   @media (max-width: 48em) {
     font-size: ${(props) => props.theme.fontlg};
   }
 `;
 
+const AuthorText = styled(motion.span)`
+  font-size: ${(props) => props.theme.fontsm};
+  color: ${(props) => props.theme.text};
+  opacity: 0.7;
+  margin-top: 1rem;
+`;
+
 const Loader = () => {
+  const [kural, setKural] = useState("");
+
+  useEffect(() => {
+    fetch('/thirukkural.json')
+      .then((response) => response.json())
+      .then((data) => {
+        const kuralArray = data.kural;
+        const randomIndex = Math.floor(Math.random() * kuralArray.length);
+        const selectedKural = kuralArray[randomIndex];
+        setKural(`${selectedKural.Line1}\n${selectedKural.Line2}`);
+      })
+      .catch((error) => {
+        console.error("Failed to load Thirukkural:", error);
+        setKural("அகர முதல எழுத்தெல்லாம் ஆதி\nபகவன் முதற்றே உலகு.");
+      });
+  }, []);
+
   return (
     <Container
       initial={{ y: 0, opacity: 1 }}
       exit={{ y: '100%', opacity: 0 }}
-      transition={{ duration: 2 }}
+      transition={{ duration: 2, delay: 2.5 }}
     >
-      <motion.img
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 2 }}
-        src={star}
-        alt="ESINN"
-      />
       <Text variants={textVariants} initial="hidden" animate="visible">
-        ESINN
+        {kural}
       </Text>
+      {kural && (
+        <AuthorText variants={textVariants} initial="hidden" animate="visible">
+          — Written by Thiruvalluvar
+        </AuthorText>
+      )}
     </Container>
   );
 };

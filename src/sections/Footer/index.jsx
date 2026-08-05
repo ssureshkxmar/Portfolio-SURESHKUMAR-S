@@ -133,8 +133,8 @@ const Footer = () => {
     <Section>
       <ContentContainer>
         <BrandSection>
-          <img src={LogoImg} alt="ESINN" />
-          <h2>ESINN</h2>
+          <img src={LogoImg} alt="SURESHKUMAR" />
+          <h2>SURESHKUMAR</h2>
           <p>
             Building intelligent digital systems that bridge AI, healthcare, and
             next-generation technology.
@@ -187,7 +187,7 @@ const Footer = () => {
 
       <Bottom>
         <span>
-          &copy; {new Date().getFullYear()} ESINN. All Rights Reserved.
+          &copy; {new Date().getFullYear()} SURESHKUMAR. All Rights Reserved.
         </span>
         <span>Engineered with Precision & Innovation.</span>
       </Bottom>

@@ -7,6 +7,7 @@ import { ThemeProvider } from 'styled-components';
 import Loader from './components/Loader';
 import ScrollTriggerProxy from './components/ScrollTriggerProxy';
 import About from './sections/About';
+import Contact from './sections/Contact';
 import Footer from './sections/Footer';
 import Home from './sections/Home';
 import Projects from './sections/Projects';
@@ -31,8 +32,8 @@ function App() {
         <LocomotiveScrollProvider
           options={{
             smooth: true,
-            smartphone: { smooth: true },
-            tablet: { smooth: true },
+            smartphone: { smooth: false },
+            tablet: { smooth: false },
           }}
           watch={[]}
           containerRef={containerRef}
@@ -45,6 +46,7 @@ function App() {
               <Home key="home" />
               <About key="about" />
               <Projects key="projects" />
+              <Contact key="contact" />
               <Footer key="Footer" />
             </AnimatePresence>
           </main>
