@@ -2,7 +2,21 @@ import { motion } from 'framer-motion';
 import React from 'react';
 import { useLocomotiveScroll } from 'react-locomotive-scroll';
 import styled from 'styled-components';
-import LogoImg from '../../assets/logo.png';
+import { Home, User, Folder, Mail } from 'lucide-react';
+
+const GithubIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+  </svg>
+);
+
+const LinkedinIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect x="2" y="9" width="4" height="12" />
+    <circle cx="4" cy="4" r="2" />
+  </svg>
+);
 
 const Section = styled.section`
   min-height: 50vh;
@@ -42,53 +56,109 @@ const BrandSection = styled.div`
   }
 
   img {
-    width: 5rem;
-    height: auto;
-    margin-bottom: 1rem;
-    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.15));
+    width: 7rem;
+    height: 7rem;
+    border-radius: 50%;
+    margin-bottom: 1.5rem;
+    object-fit: cover;
+    box-shadow: 0 0 30px 5px rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.1);
   }
 
   h2 {
-    font-family: 'Kaushan Script';
-    font-size: ${(props) => props.theme.fontxl};
-    margin-bottom: 0.5rem;
+    font-family: 'Kaushan Script', cursive;
+    font-size: ${(props) => props.theme.fontxxl};
+    margin-bottom: 0.8rem;
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
   }
 
   p {
     font-size: ${(props) => props.theme.fontsm};
-    opacity: 0.6;
-    max-width: 300px;
-    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.6);
+    max-width: 320px;
+    line-height: 1.6;
   }
 `;
 
 const NavGroup = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+
+  @media (max-width: 64em) {
+    align-items: center;
+  }
 
   h4 {
     font-size: ${(props) => props.theme.fontmd};
     text-transform: uppercase;
     letter-spacing: 2px;
-    margin-bottom: 1.5rem;
-    color: ${(props) => props.theme.text};
+    margin-bottom: 2rem;
+    color: #ffffff;
+    position: relative;
+    padding-bottom: 0.5rem;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 40px;
+      height: 3px;
+      background: #58a6ff;
+      border-radius: 2px;
+    }
+
+    @media (max-width: 64em) {
+      &::after {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
   }
 
   ul {
     list-style: none;
     padding: 0;
+    width: 100%;
   }
 
   li {
     font-size: ${(props) => props.theme.fontsm};
-    margin-bottom: 1rem;
-    opacity: 0.5;
+    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.6);
     cursor: pointer;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+
+    @media (max-width: 64em) {
+      justify-content: center;
+    }
+
+    svg {
+      color: #58a6ff;
+      opacity: 0.8;
+      transition: all 0.3s ease;
+    }
 
     &:hover {
-      opacity: 1;
+      color: #ffffff;
       transform: translateX(5px);
+      
+      svg {
+        opacity: 1;
+      }
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
     }
   }
 
@@ -103,12 +173,12 @@ const Bottom = styled.div`
   width: 80%;
   margin-top: 5rem;
   padding-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: ${(props) => props.theme.fontxs};
-  opacity: 0.4;
+  color: rgba(255, 255, 255, 0.4);
 
   @media (max-width: 48em) {
     flex-direction: column;
@@ -122,18 +192,20 @@ const Footer = () => {
 
   const handleScroll = (id) => {
     let elem = document.querySelector(id);
-    scroll.scrollTo(elem, {
-      offset: '-100',
-      duration: '2000',
-      easing: [0.25, 0.0, 0.35, 1.0],
-    });
+    if (elem) {
+      scroll.scrollTo(elem, {
+        offset: '-100',
+        duration: '2000',
+        easing: [0.25, 0.0, 0.35, 1.0],
+      });
+    }
   };
 
   return (
     <Section>
       <ContentContainer>
         <BrandSection>
-          <img src={LogoImg} alt="SURESHKUMAR" />
+          <img src="/favicon.png" alt="SURESHKUMAR" />
           <h2>SURESHKUMAR</h2>
           <p>
             Building intelligent digital systems that bridge AI, healthcare, and
@@ -144,9 +216,15 @@ const Footer = () => {
         <NavGroup>
           <h4>Navigation</h4>
           <ul>
-            <li onClick={() => handleScroll('#home')}>Home</li>
-            <li onClick={() => handleScroll('.about')}>About Me</li>
-            <li onClick={() => handleScroll('.projects')}>Projects</li>
+            <li onClick={() => handleScroll('#home')}>
+              <Home size={18} /> Home
+            </li>
+            <li onClick={() => handleScroll('.about')}>
+              <User size={18} /> About Me
+            </li>
+            <li onClick={() => handleScroll('.projects')}>
+              <Folder size={18} /> Projects
+            </li>
           </ul>
         </NavGroup>
 
@@ -154,31 +232,18 @@ const Footer = () => {
           <h4>Connect</h4>
           <ul>
             <li>
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noreferrer"
-                style={{ color: 'inherit', textDecoration: 'none' }}
-              >
-                GitHub
+              <a href="https://github.com/ssureshkxmar" target="_blank" rel="noreferrer">
+                <GithubIcon /> GitHub
               </a>
             </li>
             <li>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noreferrer"
-                style={{ color: 'inherit', textDecoration: 'none' }}
-              >
-                LinkedIn
+              <a href="https://www.linkedin.com/in/sureshkumar-s-585691356" target="_blank" rel="noreferrer">
+                <LinkedinIcon /> LinkedIn
               </a>
             </li>
             <li>
-              <a
-                href="mailto:contact@esinn.com"
-                style={{ color: 'inherit', textDecoration: 'none' }}
-              >
-                Email Me
+              <a href="mailto:ssureshkxmar@gmail.com">
+                <Mail size={18} /> Email Me
               </a>
             </li>
           </ul>
