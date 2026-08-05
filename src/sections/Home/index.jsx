@@ -18,7 +18,6 @@ const LinkedinIcon = ({ size = 22 }) => (
 );
 
 const CoverVideo = React.lazy(() => import('../../components/CoverVideo'));
-const Navbar = React.lazy(() => import('../../components/Navbar'));
 const Logo = React.lazy(() => import('../../components/Logo'));
 
 const Section = styled.section`
@@ -90,9 +89,7 @@ const Home = () => {
           <Phone size={22} />
         </a>
       </SocialLinksContainer>
-      
       <Suspense fallback={<></>}>
-        <Navbar />
         <CoverVideo />
       </Suspense>
     </Section>

@@ -5,6 +5,7 @@ import { LocomotiveScrollProvider } from 'react-locomotive-scroll';
 import { ThemeProvider } from 'styled-components';
 
 import Loader from './components/Loader';
+import Navbar from './components/Navbar';
 import ScrollTriggerProxy from './components/ScrollTriggerProxy';
 import About from './sections/About';
 import Contact from './sections/Contact';
@@ -38,6 +39,7 @@ function App() {
           watch={[]}
           containerRef={containerRef}
         >
+          <Navbar />
           <AnimatePresence>{Loaded ? null : <Loader />}</AnimatePresence>
           <main className="App" data-scroll-container ref={containerRef}>
             <ScrollTriggerProxy />
